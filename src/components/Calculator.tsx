@@ -81,7 +81,11 @@ export default function Calculator() {
             className="h-10 w-10 rounded-full object-contain shadow"
             loading="eager"
           />
-          <span className="text-lg md:text-xl font-semibold tracking-tight">Murban Engineering</span>
+          <div>
+            <span className="text-lg md:text-xl font-semibold tracking-tight">Murban Engineering</span>
+            <br />
+            <span className="text-base md:text-lg font-medium text-muted-foreground">Swahili Beach Hotel</span>
+          </div>
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" onClick={() => setOpenHelp(true)}>Help</Button>
