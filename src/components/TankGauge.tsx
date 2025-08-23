@@ -2,7 +2,6 @@ import React from "react";
 
 export type TankGaugeProps = {
   percent: number;
-  heightMm?: number;
   capacityL?: number;
 };
 
