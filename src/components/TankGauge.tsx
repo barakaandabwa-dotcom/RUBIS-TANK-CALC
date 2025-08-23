@@ -42,6 +42,10 @@ export default function Calculator() {
 
   const [result, setResult] = useState<ReturnType<typeof calculate> | null>(null);
 
+  // Get current row data based on percent
+  const currentRow = PERCENT_TABLE.find(r => r.percent === percent);
+  const currentCapacity = currentRow ? currentRow.capacity_L : 0;
+
   const reset = () => {
     setDensity(0.55);
     setProductTemperature(20.0);
@@ -52,9 +56,10 @@ export default function Calculator() {
     setPercent(0);
     setResult(null);
   };
+
   const onCalculate = () => {
-    if (density === "" || productTemperature === "" || shellTemperature === "" || heightMm === "") {
-      toast({ title: "Missing input", description: "Product density, product temperature, shell temperature and height are required.", variant: "destructive" });
+    if (density === "" || productTemperature === "" || shellTemperature === "" || currentCapacity === 0) {
+      toast({ title: "Missing input", description: "Product density, product temperature, shell temperature and capacity are required.", variant: "destructive" });
       return;
     }
     try {
@@ -62,7 +67,7 @@ export default function Calculator() {
         density: Number(density),
         productTemperature: Number(productTemperature),
         shellTemperature: Number(shellTemperature),
-        heightMm: Number(heightMm),
+        heightMm: currentCapacity, // Using capacity as the calculation input
         pressure: pressure === "" ? undefined : Number(pressure),
       });
       setResult(res);
@@ -109,12 +114,12 @@ export default function Calculator() {
           <div className="flex flex-col gap-3">
             <TankGauge
               percent={percent}
-              capacityL={(() => { const row = PERCENT_TABLE.find(r => r.percent === percent); return row ? row.capacity_L : undefined; })()}
+              capacityL={currentCapacity}
             />
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="font-medium">Fill Level: {percent}%</div>
               <div className="text-sm text-muted-foreground">
-                Capacity: {(() => { const row = PERCENT_TABLE.find(r => r.percent === percent); return row ? row.capacity_L.toFixed(2) : "-"; })()} L
+                Capacity: {currentCapacity ? currentCapacity.toFixed(2) : "-"} L
               </div>
             </div>
             <Slider
@@ -125,8 +130,6 @@ export default function Calculator() {
               onValueChange={(v) => {
                 const p = v[0] ?? 0;
                 setPercent(p);
-                const row = PERCENT_TABLE.find(r => r.percent === p);
-                if (row) setHeightMm(Number(row.capacity_L.toFixed(2)));
               }}
             />
           </div>
@@ -157,10 +160,12 @@ export default function Calculator() {
                     onChange={(e) => setShellTemperature(e.target.value === "" ? "" : Number(e.target.value))} />
                 </div>
                 <div>
-                  <Label htmlFor="height">Height (mm)</Label>
-                  <Input id="height" type="number" step="0.01" min={RANGES.heightMm.min} max={RANGES.heightMm.max}
-                    placeholder="0.00" value={heightMm}
-                    onChange={(e) => setHeightMm(e.target.value === "" ? "" : Number(e.target.value))} />
+                  <Label htmlFor="capacity">Capacity (L)</Label>
+                  <Input id="capacity" type="number" step="0.01" 
+                    placeholder="0.00" value={currentCapacity ? currentCapacity.toFixed(2) : 0}
+                    readOnly
+                    className="bg-muted cursor-not-allowed"
+                  />
                 </div>
                 <div>
                   <Label htmlFor="pressure">Pressure (bar)</Label>
