@@ -72,6 +72,13 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
           )}
         </div>
       </div>
+      <div className="mt-2 text-center text-xs text-muted-foreground space-y-1">
+        <div>5% – 106.5 mm</div>
+        <div>10% – 213.0 mm</div>
+        <div>85% – 1810.5 mm</div>
+        <div>90% – 1917 mm</div>
+        <div>95% – 2023.5 mm</div>
+      </div>
     </div>
   );
 }
