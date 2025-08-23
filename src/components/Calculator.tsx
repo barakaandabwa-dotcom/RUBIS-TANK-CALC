@@ -102,5 +102,3 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
     </div>
   );
 }
-
-export default TankGauge;
