@@ -9,12 +9,14 @@ export type TankGaugeProps = {
 export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
   const clamped = Math.max(0, Math.min(100, Number.isFinite(percent) ? percent : 0));
   
+  // For the popup, show the same value as heightMm under the "Cap: ..." label
+  const capValue = typeof heightMm === "number" ? heightMm : Number(heightMm);
+
   return (
     <div className="w-full">
       <div
         role="img"
-        aria-label={`Tank fill ${clamped}%${
-         typeof capacityL === "number" ? `, capacity ${capacityL.toFixed(2)} liters` : ""}`}
+        aria-label={`Tank fill ${clamped}%${typeof capValue === "number" ? `, capacity ${capValue.toFixed(2)} liters` : ""}`}
         className="relative mx-auto h-40 md:h-56 w-full max-w-4xl"
       >
         {/* Support structure/skid base */}
@@ -36,7 +38,6 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
 
         {/* Main cylindrical tank body */}
         <div className="absolute bottom-8 left-0 w-full h-32 md:h-40 overflow-hidden bg-gradient-to-b from-gray-300 via-gray-200 to-gray-400 rounded-full shadow-2xl">
-          
           {/* Tank end caps (elliptical) */}
           <div className="absolute left-0 top-0 w-6 h-full bg-gradient-to-r from-gray-400 to-gray-300 rounded-l-full"></div>
           <div className="absolute right-0 top-0 w-6 h-full bg-gradient-to-r from-gray-300 to-gray-500 rounded-r-full"></div>
@@ -65,7 +66,6 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
           {/* Manhole/access port */}
           <div className="absolute top-2 right-[30%] w-8 h-6 bg-gray-600 rounded-full border-2 border-gray-700">
             <div className="absolute inset-1 bg-gray-500 rounded-full"></div>
-            {/* Bolts around manhole */}
             {[...Array(8)].map((_, i) => (
               <div 
                 key={i} 
@@ -92,9 +92,9 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
         {/* Simple readout */}
         <div className="pointer-events-none absolute right-3 top-2 text-xs md:text-sm text-gray-700 bg-white/90 p-2 rounded border border-gray-300 shadow-md">
           <div className="font-bold text-gray-800">{clamped}%</div>
-          {typeof capacityL === "number" && (
+          {typeof capValue === "number" && !isNaN(capValue) && (
             <div className="text-gray-600 text-xs mt-1">
-              Cap: {capacityL.toFixed(1)} L
+              Cap: {capValue.toFixed(2)} L
             </div>
           )}
         </div>
