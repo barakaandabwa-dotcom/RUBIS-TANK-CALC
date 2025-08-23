@@ -11,7 +11,7 @@ export type TankGaugeProps = {
  * Visual gauge symbolizing a cylindrical industrial tank with green liquid.
  * Mimics the appearance of horizontal storage tanks with support structures.
  */
-export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
+export function TankGauge({ percent, capacityL }: TankGaugeProps) {
   const clamped = Math.max(0, Math.min(100, Number.isFinite(percent) ? percent : 0));
   
   return (
