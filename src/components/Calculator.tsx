@@ -1,248 +1,104 @@
-import React, { useState } from "react";
-import { TankGauge } from "./TankGauge";
-import { parsePercentHeightCsv } from "@/utils/interpolation";
-import percentCsv from "@/assets/percent_height.csv?raw";
-import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { VCFTableModal } from "./modals/VCFTableModal";
-import { SCFTableModal } from "./modals/SCFTableModal";
-import { PressureTableModal } from "./modals/PressureTableModal";
-import { AboutModal } from "./modals/AboutModal";
-import { HelpModal } from "./modals/HelpModal";
-import { HeightCapacityModal } from "./HeightCapacityModal";
-import { ResultsCard } from "./ResultsCard";
-import { RANGES } from "@/utils/constants";
-import { calculate } from "@/utils/calculations";
-import { useToast } from "@/components/ui/use-toast";
+import React from "react";
 
-const PERCENT_TABLE = parsePercentHeightCsv(percentCsv);
+export type TankGaugeProps = {
+  percent: number;
+  heightMm?: number;
+  capacityL?: number;
+};
 
-export default function Calculator() {
-  const { toast } = useToast();
+export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
+  const clamped = Math.max(0, Math.min(100, Number.isFinite(percent) ? percent : 0));
+  
+  // For the popup, show the same value as heightMm under the "Cap: ..." label
+  const capValue = typeof heightMm === "number" ? heightMm : Number(heightMm);
 
-  const [density, setDensity] = useState<number | "">(0.55);
-  const [productTemperature, setProductTemperature] = useState<number | "">(20.0);
-  const [shellTemperature, setShellTemperature] = useState<number | "">(20.0);
-  const [heightMm, setHeightMm] = useState<number | "">(0);
-  const [pressure, setPressure] = useState<number | "">(17);
-  const [showVCFToggle, setShowVCFToggle] = useState(false);
+  return (
+    <div className="w-full">
+      <div
+        role="img"
+        aria-label={`Tank fill ${clamped}%${typeof capValue === "number" ? `, capacity ${capValue.toFixed(2)} liters` : ""}`}
+        className="relative mx-auto h-40 md:h-56 w-full max-w-4xl"
+      >
+        {/* Support structure/skid base */}
+        <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-b from-gray-400 to-gray-600">
+          {/* Support beams */}
+          <div className="absolute inset-0">
+            <div className="absolute left-[15%] top-0 w-2 h-full bg-gray-500"></div>
+            <div className="absolute right-[15%] top-0 w-2 h-full bg-gray-500"></div>
+            <div className="absolute left-0 bottom-0 w-full h-2 bg-gray-600"></div>
+          </div>
+          {/* Cross bracing */}
+          <div className="absolute left-[20%] top-2 w-[60%] h-0.5 bg-gray-500 transform rotate-2"></div>
+          <div className="absolute left-[20%] top-4 w-[60%] h-0.5 bg-gray-500 transform -rotate-2"></div>
+        </div>
 
-  const [percent, setPercent] = useState<number>(0);
+        {/* Tank saddles/supports */}
+        <div className="absolute bottom-6 left-[15%] w-8 h-12 bg-gradient-to-r from-gray-500 to-gray-400 rounded-b-lg"></div>
+        <div className="absolute bottom-6 right-[15%] w-8 h-12 bg-gradient-to-r from-gray-400 to-gray-500 rounded-b-lg"></div>
 
-  const [openVCF, setOpenVCF] = useState(false);
-  const [openSCF, setOpenSCF] = useState(false);
-  const [openPCF, setOpenPCF] = useState(false);
-  const [openAbout, setOpenAbout] = useState(false);
-  const [openHelp, setOpenHelp] = useState(false);
-  const [openHeight, setOpenHeight] = useState(false);
-
-  const [result, setResult] = useState<ReturnType<typeof calculate> | null>(null);
-
-  const reset = () => {
-    setDensity(0.55);
-    setProductTemperature(20.0);
-    setShellTemperature(20.0);
-    setHeightMm(0);
-    setPressure(17);
-    setShowVCFToggle(false);
-    setPercent(0);
-    setResult(null);
-  };
-  const onCalculate = () => {
-    if (density === "" || productTemperature === "" || shellTemperature === "" || heightMm === "") {
-      toast({ title: "Missing input", description: "Product density, product temperature, shell temperature and height are required.", variant: "destructive" });
-      return;
-    }
-    try {
-      const res = calculate({
-        density: Number(density),
-        productTemperature: Number(productTemperature),
-        shellTemperature: Number(shellTemperature),
-        heightMm: Number(heightMm),
-        pressure: pressure === "" ? undefined : Number(pressure),
-      });
-      setResult(res);
-    } catch (e: any) {
-      toast({ title: "Validation error", description: e.message, variant: "destructive" });
-    }
-  };
-
-  // Find the current capacity for the selected percent
-  const currentCapacity = (() => {
-    const row = PERCENT_TABLE.find(r => r.percent === percent);
-    return row ? row.capacity_L : undefined;
-  })();
-
-  const header = (
-    <header className="w-full mb-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img
-            src="/lovable-uploads/276648f6-6e8a-4575-a788-75ee76afecef.png"
-            alt="Murban Engineering logo"
-            className="h-10 w-10 rounded-full object-contain shadow"
-            loading="eager"
+        {/* Main cylindrical tank body */}
+        <div className="absolute bottom-8 left-0 w-full h-32 md:h-40 overflow-hidden bg-gradient-to-b from-gray-300 via-gray-200 to-gray-400 rounded-full shadow-2xl">
+          {/* Tank end caps (elliptical) */}
+          <div className="absolute left-0 top-0 w-6 h-full bg-gradient-to-r from-gray-400 to-gray-300 rounded-l-full"></div>
+          <div className="absolute right-0 top-0 w-6 h-full bg-gradient-to-r from-gray-300 to-gray-500 rounded-r-full"></div>
+          
+          {/* Green liquid fill */}
+          <div
+            className="absolute bottom-0 left-0 w-full transition-[height] duration-500 ease-out bg-green-500"
+            style={{ height: `${clamped}%` }}
+            aria-hidden
           />
-          <div>
-            <span className="text-lg md:text-xl font-semibold tracking-tight">Murban Engineering</span>
-            <br />
-            <span className="text-base md:text-lg font-medium text-muted-foreground">RUBIS TANK </span>
+          
+          {/* Tank fittings on top */}
+          <div className="absolute top-0 left-[25%] w-3 h-6 bg-gray-600 -translate-y-4">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
           </div>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" onClick={() => setOpenHelp(true)}>Help</Button>
-          <Button variant="secondary" onClick={() => setOpenAbout(true)}>About / Calibration</Button>
-        </div>
-      </div>
-      <div className="mt-3">
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand))] to-[hsl(var(--ink))]">Tank Mass Calculator</h1>
-      </div>
-      <p className="text-muted-foreground mt-2">Single tank: 01 — LPG Bullet Tank</p>
-    </header>
-  );
+          <div className="absolute top-0 left-[40%] w-3 h-6 bg-gray-600 -translate-y-4">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          </div>
+          <div className="absolute top-0 left-[60%] w-3 h-6 bg-gray-600 -translate-y-4">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          </div>
+          <div className="absolute top-0 left-[75%] w-3 h-6 bg-gray-600 -translate-y-4">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          </div>
 
-  return (
-    <div className="min-h-screen py-8">
-      <div className="container mx-auto">
-        {header}
-        {/* Fill Level Slider */}
-        <section aria-label="Fill level gauge" className="mb-6 rounded-2xl border bg-muted/30 p-4">
-          <div className="flex flex-col gap-3">
-            <TankGauge
-              percent={percent}
-              heightMm={typeof heightMm === "number" ? heightMm : Number(heightMm)}
-              capacityL={currentCapacity}
-            />
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="font-medium">Fill Level: {percent}%</div>
-              <div className="text-sm text-muted-foreground">
-                Capacity: {currentCapacity !== undefined ? currentCapacity.toFixed(2) : "-"} L
-              </div>
+          {/* Manhole/access port */}
+          <div className="absolute top-2 right-[30%] w-8 h-6 bg-gray-600 rounded-full border-2 border-gray-700">
+            <div className="absolute inset-1 bg-gray-500 rounded-full"></div>
+            {[...Array(8)].map((_, i) => (
+              <div 
+                key={i} 
+                className="absolute w-1 h-1 bg-gray-800 rounded-full"
+                style={{
+                  left: `${50 + 35 * Math.cos(i * Math.PI / 4)}%`,
+                  top: `${50 + 35 * Math.sin(i * Math.PI / 4)}%`,
+                  transform: 'translate(-50%, -50%)'
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Cylindrical body highlight */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent rounded-full" 
+               style={{clipPath: 'ellipse(80% 20% at 50% 10%)'}} />
+          
+          {/* Tank seams */}
+          <div className="absolute top-1/4 left-0 w-full h-px bg-gray-500/50"></div>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-gray-500/50"></div>
+          <div className="absolute top-3/4 left-0 w-full h-px bg-gray-500/50"></div>
+        </div>
+        
+        {/* Simple readout */}
+        <div className="pointer-events-none absolute right-3 top-2 text-xs md:text-sm text-gray-700 bg-white/90 p-2 rounded border border-gray-300 shadow-md">
+          <div className="font-bold text-gray-800">{clamped}%</div>
+          {typeof capValue === "number" && !isNaN(capValue) && (
+            <div className="text-gray-600 text-xs mt-1">
+              Cap: {capValue.toFixed(2)} L
             </div>
-            <Slider
-              value={[percent]}
-              min={0}
-              max={100}
-              step={1}
-              onValueChange={(v) => {
-                const p = v[0] ?? 0;
-                setPercent(p);
-                const row = PERCENT_TABLE.find(r => r.percent === p);
-                if (row) setHeightMm(Number(row.height_mm.toFixed(2)));
-              }}
-            />
-          </div>
-        </section>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="rounded-2xl shadow-md transition-all hover:shadow-xl hover:-translate-y-0.5 hover-scale">
-            <CardHeader>
-              <CardTitle>Manual Inputs</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="density">Product Density (kg/L)</Label>
-                  <Input id="density" type="number" step="0.001" min={RANGES.density.min} max={RANGES.density.max}
-                    placeholder="0.550" value={density}
-                    onChange={(e) => setDensity(e.target.value === "" ? "" : Number(e.target.value))} />
-                </div>
-                <div>
-                  <Label htmlFor="productTemperature">Product Temperature (°C)</Label>
-                  <Input id="productTemperature" type="number" step="0.1" min={RANGES.productTemperature.min} max={RANGES.productTemperature.max}
-                    placeholder="20.0" value={productTemperature}
-                    onChange={(e) => setProductTemperature(e.target.value === "" ? "" : Number(e.target.value))} />
-                </div>
-                <div>
-                  <Label htmlFor="shellTemperature">Shell Temperature (°C)</Label>
-                  <Input id="shellTemperature" type="number" step="0.1"
-                    placeholder="20.0" value={shellTemperature}
-                    onChange={(e) => setShellTemperature(e.target.value === "" ? "" : Number(e.target.value))} />
-                </div>
-                <div>
-                  <Label htmlFor="height">Height (mm)</Label>
-                  <Input id="height" type="number" step="0.01" min={RANGES.heightMm.min} max={RANGES.heightMm.max}
-                    placeholder="0.00" value={heightMm}
-                    onChange={(e) => setHeightMm(e.target.value === "" ? "" : Number(e.target.value))} />
-                </div>
-                <div>
-                  <Label htmlFor="pressure">Pressure (bar)</Label>
-                  <Input id="pressure" type="number" step="0.1" value={pressure}
-                    onChange={(e) => setPressure(e.target.value === "" ? "" : Number(e.target.value))} />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2">
-                  <Switch id="showVCF" checked={showVCFToggle} onCheckedChange={setShowVCFToggle} />
-                  <Label htmlFor="showVCF">Show Product Temperature (VCF) table</Label>
-                </div>
-                {showVCFToggle && (
-                  <Button variant="outline" onClick={() => setOpenVCF(true)}>Open Product Temperature Table</Button>
-                )}
-              </div>
-
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Button onClick={onCalculate}>Calculate</Button>
-                <Button variant="secondary" onClick={reset}>Reset</Button>
-                <Button variant="outline" onClick={() => setOpenSCF(true)}>Shell Correction Factors</Button>
-                <Button variant="outline" onClick={() => setOpenPCF(true)}>Pressure Factors</Button>
-                <Button variant="outline" onClick={() => setOpenHeight(true)}>Height↔Capacity Table</Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <ResultsCard result={result} />
+          )}
         </div>
-
-        <section className="mt-8">
-          <Card className="rounded-2xl shadow-md transition-all hover:shadow-xl hover:-translate-y-0.5 hover-scale">
-            <CardHeader>
-              <CardTitle>Tank Description</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 text-sm md:text-base">
-                <Info label="Client" value="Rubis, Zambia" />
-                <Info label="Revision Date" value="30th July, 2025" />
-                <Info label="Revision No." value="rev 01" />
-                <Info label="Project No." value="20257001039TC" />
-                <Info label="Tank" value="Tank 01" />
-                <Info label="Tank Owner" value="Rubis, Zambia" />
-                <Info label="Location" value="Zambia" />
-                <Info label="Tank Description" value="LPG Bullet Tank" />
-                <Info label="Nominal Diameter" value="2130 mm" />
-                <Info label="Cylinder Length" value="11600 mm" />
-                <Info label="Tank Nominal Capacity" value="39557 Liters" />
-                <Info label="Date of Calibration" value="29/07/2025" />
-                <Info label="Validity" value="10 Years" />
-                <Info label="Overall Uncertainty" value="+0.0113%" />
-                <Info label="Method of Calibration" value="API MPMS CHAPTER 2" />
-                <Info label="Tank calibrated by" value="Murban Engineering Limited" />
-                <Info label="Certificate No." value="20257001039TC-01" />
-              </div>
-            </CardContent>
-          </Card>
-        </section>
       </div>
-
-      <VCFTableModal open={openVCF} onOpenChange={setOpenVCF} />
-      <SCFTableModal open={openSCF} onOpenChange={setOpenSCF} />
-      <PressureTableModal open={openPCF} onOpenChange={setOpenPCF} />
-      <AboutModal open={openAbout} onOpenChange={setOpenAbout} />
-      <HelpModal open={openHelp} onOpenChange={setOpenHelp} />
-      <HeightCapacityModal open={openHeight} onOpenChange={setOpenHeight} />
-    </div>
-  );
-}
-
-function Info({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3 shadow-sm">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="font-medium">{value}</span>
     </div>
   );
 }
