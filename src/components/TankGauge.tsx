@@ -49,10 +49,10 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
           
           {/* Green liquid fill */}
           <div
-            className="absolute bottom-0 left-0 w-full transition-[height] duration-500 ease-out bg-green-500 rounded-full"
+            className="absolute bottom-0 left-0 w-full transition-[height] duration-500 ease-out bg-green-500"
             style={{ 
               height: `${clamped}%`,
-              clipPath: `ellipse(50% ${Math.max(10, clamped)}% at 50% 100%)`
+              borderRadius: clamped === 100 ? '9999px' : `0 0 9999px 9999px`
             }}
             aria-hidden
           />
