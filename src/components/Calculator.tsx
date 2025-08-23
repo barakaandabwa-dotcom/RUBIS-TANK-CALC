@@ -84,7 +84,7 @@ export default function Calculator() {
           <div>
             <span className="text-lg md:text-xl font-semibold tracking-tight">Murban Engineering</span>
             <br />
-            <span className="text-base md:text-lg font-medium text-muted-foreground">RUBIS TANK MASS CALCULATOR</span>
+            <span className="text-base md:text-lg font-medium text-muted-foreground">RUBIS TANK </span>
           </div>
         </div>
         <div className="flex gap-2">
