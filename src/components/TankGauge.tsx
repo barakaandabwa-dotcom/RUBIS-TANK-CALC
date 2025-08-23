@@ -8,8 +8,8 @@ export type TankGaugeProps = {
 
 /**
  * TankGauge
- * Visual gauge symbolizing a 3D bullet-style tank with metallic appearance.
- * Uses design tokens with custom styling for tank warfare aesthetics.
+ * Visual gauge symbolizing a cylindrical industrial tank with green liquid.
+ * Mimics the appearance of horizontal storage tanks with support structures.
  */
 export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
   const clamped = Math.max(0, Math.min(100, Number.isFinite(percent) ? percent : 0));
@@ -18,107 +18,96 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
     <div className="w-full">
       <div
         role="img"
-        aria-label={`Tank ammunition ${clamped}%${
+        aria-label={`Tank fill ${clamped}%${
           typeof heightMm === "number" ? `, height ${heightMm.toFixed(2)} millimeters` : ""
         }${typeof capacityL === "number" ? `, capacity ${capacityL.toFixed(2)} liters` : ""}`}
-        className="relative mx-auto h-40 md:h-56 w-full max-w-3xl"
+        className="relative mx-auto h-40 md:h-56 w-full max-w-4xl"
       >
-        {/* Tank barrel/bullet shell container */}
-        <div className="absolute inset-0 overflow-hidden bg-gradient-to-b from-slate-300 via-slate-400 to-slate-600 shadow-2xl" 
-             style={{
-               clipPath: 'polygon(15% 0%, 85% 0%, 95% 15%, 95% 85%, 85% 100%, 15% 100%, 5% 85%, 5% 15%)',
-               filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.4))'
-             }}>
-          
-          {/* Metallic tank body with rivets */}
-          <div className="absolute inset-0 bg-gradient-to-br from-zinc-400 via-zinc-500 to-zinc-700">
-            {/* Rivets pattern */}
-            <div className="absolute inset-2 opacity-60">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="absolute w-2 h-2 bg-zinc-600 rounded-full shadow-inner"
-                     style={{ 
-                       left: `${15 + (i % 3) * 35}%`, 
-                       top: `${20 + Math.floor(i / 3) * 60}%` 
-                     }} />
-              ))}
-            </div>
-            
-            {/* Ammunition/fuel level indicator */}
-            <div
-              className="absolute bottom-0 left-0 w-full transition-[height] duration-500 ease-out"
-              style={{ 
-                height: `${clamped}%`,
-                background: clamped > 75 ? 
-                  'linear-gradient(to top, #ef4444, #f87171)' : // Red for high ammo
-                  clamped > 50 ? 
-                  'linear-gradient(to top, #eab308, #facc15)' : // Yellow for medium
-                  clamped > 25 ?
-                  'linear-gradient(to top, #f97316, #fb923c)' : // Orange for low
-                  'linear-gradient(to top, #dc2626, #ef4444)', // Dark red for critical
-                opacity: 0.8
-              }}
-              aria-hidden
-            />
-            
-            {/* Tank treads/tracks at bottom */}
-            <div className="absolute bottom-0 left-0 w-full h-6 bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800">
-              <div className="flex h-full">
-                {[...Array(12)].map((_, i) => (
-                  <div key={i} className="flex-1 border-r border-zinc-600 bg-gradient-to-b from-zinc-700 to-zinc-800" />
-                ))}
-              </div>
-            </div>
-            
-            {/* Tank turret indicator */}
-            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-16 h-3 bg-gradient-to-r from-zinc-600 to-zinc-500 rounded-full shadow-md">
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-1 bg-zinc-800 rounded-full" />
-            </div>
-            
-            {/* Metallic shine effect */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" 
-                 style={{clipPath: 'polygon(0% 0%, 40% 0%, 20% 100%, 0% 100%)'}} />
-            
-            {/* Battle damage/wear effects */}
-            <div className="pointer-events-none absolute inset-0 opacity-40">
-              <div className="absolute top-1/4 right-1/4 w-6 h-1 bg-zinc-800/60 rounded-full rotate-12" />
-              <div className="absolute bottom-1/3 left-1/3 w-4 h-4 bg-zinc-800/40 rounded-full" />
-              <div className="absolute top-1/2 left-1/4 w-8 h-0.5 bg-zinc-900/50 rounded-full -rotate-6" />
-            </div>
+        {/* Support structure/skid base */}
+        <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-b from-gray-400 to-gray-600">
+          {/* Support beams */}
+          <div className="absolute inset-0">
+            <div className="absolute left-[15%] top-0 w-2 h-full bg-gray-500"></div>
+            <div className="absolute right-[15%] top-0 w-2 h-full bg-gray-500"></div>
+            <div className="absolute left-0 bottom-0 w-full h-2 bg-gray-600"></div>
           </div>
+          {/* Cross bracing */}
+          <div className="absolute left-[20%] top-2 w-[60%] h-0.5 bg-gray-500 transform rotate-2"></div>
+          <div className="absolute left-[20%] top-4 w-[60%] h-0.5 bg-gray-500 transform -rotate-2"></div>
+        </div>
+
+        {/* Tank saddles/supports */}
+        <div className="absolute bottom-6 left-[15%] w-8 h-12 bg-gradient-to-r from-gray-500 to-gray-400 rounded-b-lg"></div>
+        <div className="absolute bottom-6 right-[15%] w-8 h-12 bg-gradient-to-r from-gray-400 to-gray-500 rounded-b-lg"></div>
+
+        {/* Main cylindrical tank body */}
+        <div className="absolute bottom-8 left-0 w-full h-32 md:h-40 overflow-hidden bg-gradient-to-b from-gray-300 via-gray-200 to-gray-400 rounded-full shadow-2xl">
           
-          {/* Frame highlight with military styling */}
-          <div className="pointer-events-none absolute inset-0 ring-2 ring-zinc-700/50" 
-               style={{clipPath: 'polygon(15% 0%, 85% 0%, 95% 15%, 95% 85%, 85% 100%, 15% 100%, 5% 85%, 5% 15%)'}} />
+          {/* Tank end caps (elliptical) */}
+          <div className="absolute left-0 top-0 w-6 h-full bg-gradient-to-r from-gray-400 to-gray-300 rounded-l-full"></div>
+          <div className="absolute right-0 top-0 w-6 h-full bg-gradient-to-r from-gray-300 to-gray-500 rounded-r-full"></div>
+          
+          {/* Green liquid fill */}
+          <div
+            className="absolute bottom-0 left-0 w-full transition-[height] duration-500 ease-out bg-green-500 rounded-full"
+            style={{ 
+              height: `${clamped}%`,
+              clipPath: `ellipse(50% ${Math.max(10, clamped)}% at 50% 100%)`
+            }}
+            aria-hidden
+          />
+          
+          {/* Tank fittings on top */}
+          <div className="absolute top-0 left-[25%] w-3 h-6 bg-gray-600 -translate-y-4">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          </div>
+          <div className="absolute top-0 left-[40%] w-3 h-6 bg-gray-600 -translate-y-4">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          </div>
+          <div className="absolute top-0 left-[60%] w-3 h-6 bg-gray-600 -translate-y-4">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          </div>
+          <div className="absolute top-0 left-[75%] w-3 h-6 bg-gray-600 -translate-y-4">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          </div>
+
+          {/* Manhole/access port */}
+          <div className="absolute top-2 right-[30%] w-8 h-6 bg-gray-600 rounded-full border-2 border-gray-700">
+            <div className="absolute inset-1 bg-gray-500 rounded-full"></div>
+            {/* Bolts around manhole */}
+            {[...Array(8)].map((_, i) => (
+              <div 
+                key={i} 
+                className="absolute w-1 h-1 bg-gray-800 rounded-full"
+                style={{
+                  left: `${50 + 35 * Math.cos(i * Math.PI / 4)}%`,
+                  top: `${50 + 35 * Math.sin(i * Math.PI / 4)}%`,
+                  transform: 'translate(-50%, -50%)'
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Cylindrical body highlight */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent rounded-full" 
+               style={{clipPath: 'ellipse(80% 20% at 50% 10%)'}} />
+          
+          {/* Tank seams */}
+          <div className="absolute top-1/4 left-0 w-full h-px bg-gray-500/50"></div>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-gray-500/50"></div>
+          <div className="absolute top-3/4 left-0 w-full h-px bg-gray-500/50"></div>
         </div>
         
-        {/* HUD-style readout */}
-        <div className="pointer-events-none absolute right-3 top-2 text-xs md:text-sm font-mono text-zinc-200 bg-zinc-900/80 p-2 rounded border border-zinc-600">
-          <div className="font-bold text-green-400 mb-1">TANK-01</div>
-          <div className="text-yellow-400">AMMO: {clamped}%</div>
+        {/* Simple readout */}
+        <div className="pointer-events-none absolute right-3 top-2 text-xs md:text-sm text-gray-700 bg-white/90 p-2 rounded border border-gray-300 shadow-md">
+          <div className="font-bold text-gray-800">{clamped}%</div>
           {typeof heightMm === "number" && typeof capacityL === "number" && (
-            <div className="text-zinc-300 text-xs mt-1">
-              H: {heightMm.toFixed(1)}mm<br />
-              CAP: {capacityL.toFixed(1)}L
+            <div className="text-gray-600 text-xs mt-1">
+              H: {heightMm.toFixed(1)} mm<br />
+              Cap: {capacityL.toFixed(1)} L
             </div>
           )}
-          {/* Status indicator */}
-          <div className="flex items-center mt-1">
-            <div className={`w-2 h-2 rounded-full mr-1 ${
-              clamped > 75 ? 'bg-green-400' :
-              clamped > 25 ? 'bg-yellow-400' : 'bg-red-400'
-            }`} />
-            <span className="text-xs text-zinc-400">
-              {clamped > 75 ? 'READY' : clamped > 25 ? 'CAUTION' : 'CRITICAL'}
-            </span>
-          </div>
         </div>
-        
-        {/* Warning lights for low ammo */}
-        {clamped < 25 && (
-          <div className="absolute top-2 left-2 animate-pulse">
-            <div className="w-3 h-3 bg-red-500 rounded-full shadow-lg shadow-red-500/50" />
-          </div>
-        )}
       </div>
     </div>
   );
