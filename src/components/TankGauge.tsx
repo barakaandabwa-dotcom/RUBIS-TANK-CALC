@@ -19,25 +19,19 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
         aria-label={`Tank fill ${clamped}%${typeof capValue === "number" ? `, capacity ${capValue.toFixed(2)} liters` : ""}`}
         className="relative mx-auto h-40 md:h-56 w-full max-w-4xl"
       >
-        {/* Support structure/skid base */}
-        <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-b from-gray-400 to-gray-600">
-          {/* Support beams */}
-          <div className="absolute inset-0">
-            <div className="absolute left-[15%] top-0 w-2 h-full bg-gray-500"></div>
-            <div className="absolute right-[15%] top-0 w-2 h-full bg-gray-500"></div>
-            <div className="absolute left-0 bottom-0 w-full h-2 bg-gray-600"></div>
-          </div>
-          {/* Cross bracing */}
-          <div className="absolute left-[20%] top-2 w-[60%] h-0.5 bg-gray-500 transform rotate-2"></div>
-          <div className="absolute left-[20%] top-4 w-[60%] h-0.5 bg-gray-500 transform -rotate-2"></div>
+        {/* Simplified support structure/skid base */}
+        <div className="absolute bottom-0 left-0 w-full h-6 bg-gradient-to-b from-gray-400 to-gray-500 rounded-sm">
+          {/* Clean support beams */}
+          <div className="absolute left-[15%] top-0 w-2 h-full bg-gray-600 rounded-sm"></div>
+          <div className="absolute right-[15%] top-0 w-2 h-full bg-gray-600 rounded-sm"></div>
         </div>
 
-        {/* Tank saddles/supports */}
-        <div className="absolute bottom-6 left-[15%] w-8 h-12 bg-gradient-to-r from-gray-500 to-gray-400 rounded-b-lg"></div>
-        <div className="absolute bottom-6 right-[15%] w-8 h-12 bg-gradient-to-r from-gray-400 to-gray-500 rounded-b-lg"></div>
+        {/* Simplified tank saddles/supports */}
+        <div className="absolute bottom-4 left-[15%] w-8 h-8 bg-gradient-to-r from-gray-500 to-gray-400 rounded-sm"></div>
+        <div className="absolute bottom-4 right-[15%] w-8 h-8 bg-gradient-to-r from-gray-400 to-gray-500 rounded-sm"></div>
 
-        {/* Main cylindrical tank body */}
-        <div className="absolute bottom-8 left-0 w-full h-32 md:h-40 overflow-hidden bg-gradient-to-b from-gray-300 via-gray-200 to-gray-400 rounded-full shadow-2xl">
+        {/* Main cylindrical tank body - cleaned up */}
+        <div className="absolute bottom-6 left-0 w-full h-32 md:h-40 overflow-hidden bg-gradient-to-b from-gray-300 via-gray-200 to-gray-400 rounded-full shadow-2xl">
           {/* Tank end caps (elliptical) */}
           <div className="absolute left-0 top-0 w-6 h-full bg-gradient-to-r from-gray-400 to-gray-300 rounded-l-full"></div>
           <div className="absolute right-0 top-0 w-6 h-full bg-gradient-to-r from-gray-300 to-gray-500 rounded-r-full"></div>
@@ -49,44 +43,23 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
             aria-hidden
           />
           
-          {/* Tank fittings on top */}
-          <div className="absolute top-0 left-[25%] w-3 h-6 bg-gray-600 -translate-y-4">
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          {/* Simplified tank fittings on top */}
+          <div className="absolute top-0 left-[25%] w-2 h-4 bg-gray-600 -translate-y-3 rounded-sm">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gray-700 rounded-full"></div>
           </div>
-          <div className="absolute top-0 left-[40%] w-3 h-6 bg-gray-600 -translate-y-4">
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          <div className="absolute top-0 left-[40%] w-2 h-4 bg-gray-600 -translate-y-3 rounded-sm">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gray-700 rounded-full"></div>
           </div>
-          <div className="absolute top-0 left-[60%] w-3 h-6 bg-gray-600 -translate-y-4">
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
+          <div className="absolute top-0 left-[60%] w-2 h-4 bg-gray-600 -translate-y-3 rounded-sm">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gray-700 rounded-full"></div>
           </div>
-          <div className="absolute top-0 left-[75%] w-3 h-6 bg-gray-600 -translate-y-4">
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rounded-full"></div>
-          </div>
-
-          {/* Manhole/access port */}
-          <div className="absolute top-2 right-[30%] w-8 h-6 bg-gray-600 rounded-full border-2 border-gray-700">
-            <div className="absolute inset-1 bg-gray-500 rounded-full"></div>
-            {[...Array(8)].map((_, i) => (
-              <div 
-                key={i} 
-                className="absolute w-1 h-1 bg-gray-800 rounded-full"
-                style={{
-                  left: `${50 + 35 * Math.cos(i * Math.PI / 4)}%`,
-                  top: `${50 + 35 * Math.sin(i * Math.PI / 4)}%`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-              />
-            ))}
+          <div className="absolute top-0 left-[75%] w-2 h-4 bg-gray-600 -translate-y-3 rounded-sm">
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gray-700 rounded-full"></div>
           </div>
 
-          {/* Cylindrical body highlight */}
+          {/* Cylindrical body highlight - kept for realistic appearance */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent rounded-full" 
                style={{clipPath: 'ellipse(80% 20% at 50% 10%)'}} />
-          
-          {/* Tank seams */}
-          <div className="absolute top-1/4 left-0 w-full h-px bg-gray-500/50"></div>
-          <div className="absolute top-1/2 left-0 w-full h-px bg-gray-500/50"></div>
-          <div className="absolute top-3/4 left-0 w-full h-px bg-gray-500/50"></div>
         </div>
         
         {/* Simple readout */}
