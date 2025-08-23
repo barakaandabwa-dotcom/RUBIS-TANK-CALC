@@ -146,6 +146,10 @@ export function parsePercentHeightCsv(raw: string): PercentHeightRow[] {
 export function interpolateCapacityFromPercent(percent: number, table: PercentHeightRow[]): number {
   if (table.length === 0) return 0;
   
+  // Handle edge cases first
+  if (percent <= 0) return 0;
+  if (percent >= 100) return table[table.length - 1]?.capacity_L || 39557;
+  
   // Find exact match first
   const exactMatch = table.find(row => row.percent === percent);
   if (exactMatch) return exactMatch.capacity_L;
