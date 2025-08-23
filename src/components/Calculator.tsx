@@ -84,7 +84,7 @@ export default function Calculator() {
           <div>
             <span className="text-lg md:text-xl font-semibold tracking-tight">Murban Engineering</span>
             <br />
-            <span className="text-base md:text-lg font-medium text-muted-foreground">Swahili Beach Hotel</span>
+            <span className="text-base md:text-lg font-medium text-muted-foreground">RUBIS TANK MASS CALCULATOR</span>
           </div>
         </div>
         <div className="flex gap-2">
@@ -96,7 +96,7 @@ export default function Calculator() {
         
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand))] to-[hsl(var(--ink))]">Tank Mass Calculator</h1>
       </div>
-      <p className="text-muted-foreground mt-2">Single tank: 0160750 — LPG Bullet Tank</p>
+      <p className="text-muted-foreground mt-2">Single tank: 01 — LPG Bullet Tank</p>
     </header>
   );
 
@@ -201,23 +201,23 @@ export default function Calculator() {
             </CardHeader>
             <CardContent>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 text-sm md:text-base">
-                <Info label="Client" value="Swahili Beach Hotel" />
+                <Info label="Client" value="Rubis, Zambia" />
                 <Info label="Revision Date" value="30th July, 2025" />
                 <Info label="Revision No." value="rev 01" />
-                <Info label="Project No." value="20257001032TC" />
-                <Info label="Tank" value="0160750" />
-                <Info label="Tank Owner" value="Swahili Beach Hotel" />
-                <Info label="Location" value="Diani Beach, Kenya" />
+                <Info label="Project No." value="20257001039TC" />
+                <Info label="Tank" value="Tank 01" />
+                <Info label="Tank Owner" value="Rubis, Zambia" />
+                <Info label="Location" value="Zambia" />
                 <Info label="Tank Description" value="LPG Bullet Tank" />
-                <Info label="Nominal Diameter" value="1190 mm" />
-                <Info label="Cylinder Length" value="3700 mm" />
-                <Info label="Tank Nominal Capacity" value="3898 Liters" />
-                <Info label="Date of Calibration" value="30/07/2025" />
+                <Info label="Nominal Diameter" value="2130 mm" />
+                <Info label="Cylinder Length" value="11600 mm" />
+                <Info label="Tank Nominal Capacity" value="39557 Liters" />
+                <Info label="Date of Calibration" value="29/07/2025" />
                 <Info label="Validity" value="10 Years" />
-                <Info label="Overall Uncertainty" value="+0.012%" />
+                <Info label="Overall Uncertainty" value="+0.0113%" />
                 <Info label="Method of Calibration" value="API MPMS CHAPTER 2" />
                 <Info label="Tank calibrated by" value="Murban Engineering Limited" />
-                <Info label="Certificate No." value="20257001032TC-0160750" />
+                <Info label="Certificate No." value="20257001039TC-01" />
               </div>
             </CardContent>
           </Card>
