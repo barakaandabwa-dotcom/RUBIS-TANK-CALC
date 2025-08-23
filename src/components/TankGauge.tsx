@@ -19,8 +19,7 @@ export function TankGauge({ percent, capacityL }: TankGaugeProps) {
       <div
         role="img"
         aria-label={`Tank fill ${clamped}%${
-          typeof heightMm === "number" ? `, height ${heightMm.toFixed(2)} millimeters` : ""
-        }${typeof capacityL === "number" ? `, capacity ${capacityL.toFixed(2)} liters` : ""}`}
+         typeof capacityL === "number" ? `, capacity ${capacityL.toFixed(2)} liters` : ""}`}
         className="relative mx-auto h-40 md:h-56 w-full max-w-4xl"
       >
         {/* Support structure/skid base */}
