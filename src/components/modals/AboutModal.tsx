@@ -7,21 +7,21 @@ export function AboutModal({ open, onOpenChange }: { open: boolean; onOpenChange
         <DialogHeader>
           <DialogTitle>About / Calibration</DialogTitle>
         </DialogHeader>
-        <div className="space-y-1 text-sm">
-          <p>Tank: Tank 01</p>
-          <p>Tank Owner: Rubis, Zambia.</p>
-          <p>Location: Zambia</p>
-          <p>Tank Description: LPG Bullet Tank</p>
-          <p>Nominal Diameter: 2130 mm</p>
-          <p>Cylinder Length: 11600 mm</p>
-          <p>Tank Nominal Capacity: 39557 Liters</p>
-          <p>Date of Calibration: 29/07/2025</p>
-          <p>Validity: 10 Years</p>
-          <p>Overall Uncertainty: +0.0113%</p>
-          <p>Method of Calibration: API MPMS CHAPTER 2</p>
-          <p>Tank calibrated by: Murban Engineering Limited</p>
-          <p>Certificate No.: 20257001039TC-01</p>
-        </div>
+        <ol className="space-y-1 text-sm list-decimal list-inside">
+          <li>Tank: Tank 01</li>
+          <li>Tank Owner: Rubis, Zambia.</li>
+          <li>Location: Zambia</li>
+          <li>Tank Description: LPG Bullet Tank</li>
+          <li>Nominal Diameter: 2130 mm</li>
+          <li>Cylinder Length: 11600 mm</li>
+          <li>Tank Nominal Capacity: 39557 Liters</li>
+          <li>Date of Calibration: 29/07/2025</li>
+          <li>Validity: 10 Years</li>
+          <li>Overall Uncertainty: +0.0113%</li>
+          <li>Method of Calibration: API MPMS CHAPTER 2</li>
+          <li>Tank calibrated by: Murban Engineering Limited</li>
+          <li>Certificate No.: 20257001039TC-01</li>
+        </ol>
       </DialogContent>
     </Dialog>
   );
