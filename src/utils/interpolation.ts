@@ -125,7 +125,7 @@ export function parseSCFCsv(raw: string): SCFRow[] {
   });
 }
 
-// Percent Height table parsing - UPDATED FOR YOUR CSV FORMAT
+// Percent Height table parsing - FOR YOUR CSV FORMAT
 export type PercentHeightRow = { percent: number; height_mm: number; capacity_L: number };
 export function parsePercentHeightCsv(raw: string): PercentHeightRow[] {
   const lines = raw.trim().split(/\r?\n/).slice(1);
@@ -142,7 +142,7 @@ export function parsePercentHeightCsv(raw: string): PercentHeightRow[] {
   });
 }
 
-// Add this helper function for interpolating capacity based on percentage
+// Helper function for interpolating capacity based on percentage
 export function interpolateCapacityFromPercent(percent: number, table: PercentHeightRow[]): number {
   if (table.length === 0) return 0;
   
@@ -172,4 +172,71 @@ export function interpolateCapacityFromPercent(percent: number, table: PercentHe
   
   // Linear interpolation
   return linearInterpolate(percent, lower.percent, upper.percent, lower.capacity_L, upper.capacity_L);
+}
+
+// Helper function for interpolating height based on percentage
+export function interpolateHeightFromPercent(percent: number, table: PercentHeightRow[]): number {
+  if (table.length === 0) return 0;
+  
+  // Handle edge cases first
+  if (percent <= 0) return table[0]?.height_mm || 0;
+  if (percent >= 100) return table[table.length - 1]?.height_mm || 0;
+  
+  // Find exact match first
+  const exactMatch = table.find(row => row.percent === percent);
+  if (exactMatch) return exactMatch.height_mm;
+  
+  // Find the two closest points for interpolation
+  let lower = table[0];
+  let upper = table[table.length - 1];
+  
+  for (let i = 0; i < table.length - 1; i++) {
+    if (table[i].percent <= percent && table[i + 1].percent >= percent) {
+      lower = table[i];
+      upper = table[i + 1];
+      break;
+    }
+  }
+  
+  // Handle edge cases
+  if (percent <= lower.percent) return lower.height_mm;
+  if (percent >= upper.percent) return upper.height_mm;
+  
+  // Linear interpolation
+  return linearInterpolate(percent, lower.percent, upper.percent, lower.height_mm, upper.height_mm);
+}
+
+// Helper function for interpolating percentage based on height
+export function interpolatePercentFromHeight(height_mm: number, table: PercentHeightRow[]): number {
+  if (table.length === 0) return 0;
+  
+  // Handle edge cases first
+  const minHeight = table[0]?.height_mm || 0;
+  const maxHeight = table[table.length - 1]?.height_mm || 0;
+  
+  if (height_mm <= minHeight) return table[0]?.percent || 0;
+  if (height_mm >= maxHeight) return table[table.length - 1]?.percent || 100;
+  
+  // Find exact match first
+  const exactMatch = table.find(row => row.height_mm === height_mm);
+  if (exactMatch) return exactMatch.percent;
+  
+  // Find the two closest points for interpolation
+  let lower = table[0];
+  let upper = table[table.length - 1];
+  
+  for (let i = 0; i < table.length - 1; i++) {
+    if (table[i].height_mm <= height_mm && table[i + 1].height_mm >= height_mm) {
+      lower = table[i];
+      upper = table[i + 1];
+      break;
+    }
+  }
+  
+  // Handle edge cases
+  if (height_mm <= lower.height_mm) return lower.percent;
+  if (height_mm >= upper.height_mm) return upper.percent;
+  
+  // Linear interpolation
+  return linearInterpolate(height_mm, lower.height_mm, upper.height_mm, lower.percent, upper.percent);
 }
