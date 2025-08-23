@@ -52,21 +52,15 @@ export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
             className="absolute bottom-0 left-0 w-full transition-[height] duration-500 ease-out bg-green-500 overflow-hidden"
             style={{ 
               height: `${clamped}%`,
-              borderRadius: clamped === 100 ? '9999px' : 
-                           clamped > 50 ? `9999px 9999px 9999px 9999px` :
-                           `0 0 9999px 9999px`
+              borderRadius: clamped === 100 ? '9999px' : `0 0 9999px 9999px`
             }}
             aria-hidden
           >
-            {/* Liquid surface curve for realistic cylinder fill */}
+            {/* Flat liquid surface - only visible when tank is partially full */}
             {clamped > 0 && clamped < 100 && (
               <div 
-                className="absolute top-0 left-0 w-full bg-green-500"
-                style={{
-                  height: '20px',
-                  borderRadius: '50%',
-                  transform: 'translateY(-10px)'
-                }}
+                className="absolute top-0 left-0 w-full h-0 border-t-2 border-green-600/30"
+                style={{ width: '100%' }}
               />
             )}
           </div>
