@@ -16,7 +16,7 @@ import { HelpModal } from "./modals/HelpModal";
 import { HeightCapacityModal } from "./HeightCapacityModal";
 import { ResourceHeightGuideModal } from "./ResourceHeightGuideModal";
 import percentCsv from "@/assets/Percent_Height.csv?raw";
-import { parsePercentHeightCsv } from "@/utils/interpolation";
+import { parsePercentHeightCsv, interpolateCapacityFromPercent } from "@/utils/interpolation";
 import { TankGauge } from "./TankGauge";
 
 const PERCENT_TABLE = parsePercentHeightCsv(percentCsv);
@@ -41,9 +41,8 @@ export default function Calculator() {
 
   const [result, setResult] = useState<ReturnType<typeof calculate> | null>(null);
 
-  // Get current row data based on percent
-  const currentRow = PERCENT_TABLE.find(r => r.percent === percent);
-  const currentCapacity = currentRow ? currentRow.capacity_L : 0;
+  // Use interpolation to get current capacity based on percent
+  const currentCapacity = interpolateCapacityFromPercent(percent, PERCENT_TABLE);
 
   const reset = () => {
     setDensity(0.55);
