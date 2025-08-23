@@ -71,6 +71,12 @@ export default function Calculator() {
     }
   };
 
+  // Find the current capacity for the selected percent
+  const currentCapacity = (() => {
+    const row = PERCENT_TABLE.find(r => r.percent === percent);
+    return row ? row.capacity_L : undefined;
+  })();
+
   const header = (
     <header className="w-full mb-6">
       <div className="flex items-center justify-between">
@@ -109,11 +115,13 @@ export default function Calculator() {
             <TankGauge
               percent={percent}
               heightMm={typeof heightMm === "number" ? heightMm : Number(heightMm)}
-              capacityL={(() => { const row = PERCENT_TABLE.find(r => r.percent === percent); return row ? row.capacity_L : undefined; })()}
+              capacityL={currentCapacity}
             />
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="font-medium">Fill Level: {percent}%</div>
-              {/* Height and Capacity section removed */}
+              <div className="text-sm text-muted-foreground">
+                Capacity: {currentCapacity !== undefined ? currentCapacity.toFixed(2) : "-"} L
+              </div>
             </div>
             <Slider
               value={[percent]}
