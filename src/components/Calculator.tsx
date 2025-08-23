@@ -52,9 +52,14 @@ export default function Calculator() {
     setPercent(0);
     setResult(null);
   };
+
   const onCalculate = () => {
     if (density === "" || productTemperature === "" || shellTemperature === "" || heightMm === "") {
-      toast({ title: "Missing input", description: "Product density, product temperature, shell temperature and height are required.", variant: "destructive" });
+      toast({ 
+        title: "Missing input", 
+        description: "Product density, product temperature, shell temperature and height are required.", 
+        variant: "destructive" 
+      });
       return;
     }
     try {
@@ -67,7 +72,11 @@ export default function Calculator() {
       });
       setResult(res);
     } catch (e: any) {
-      toast({ title: "Validation error", description: e.message, variant: "destructive" });
+      toast({ 
+        title: "Validation error", 
+        description: e.message, 
+        variant: "destructive" 
+      });
     }
   };
 
@@ -84,7 +93,7 @@ export default function Calculator() {
           <div>
             <span className="text-lg md:text-xl font-semibold tracking-tight">Murban Engineering</span>
             <br />
-            <span className="text-base md:text-lg font-medium text-muted-foreground">RUBIS TANK </span>
+            <span className="text-base md:text-lg font-medium text-muted-foreground">RUBIS TANK</span>
           </div>
         </div>
         <div className="flex gap-2">
@@ -93,8 +102,9 @@ export default function Calculator() {
         </div>
       </div>
       <div className="mt-3">
-        
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand))] to-[hsl(var(--ink))]">Tank Mass Calculator</h1>
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand))] to-[hsl(var(--ink))]">
+          Tank Mass Calculator
+        </h1>
       </div>
       <p className="text-muted-foreground mt-2">Single tank: 01 — LPG Bullet Tank</p>
     </header>
@@ -104,19 +114,26 @@ export default function Calculator() {
     <div className="min-h-screen py-8">
       <div className="container mx-auto">
         {header}
+        
         {/* Fill Level Slider */}
         <section aria-label="Fill level gauge" className="mb-6 rounded-2xl border bg-muted/30 p-4">
           <div className="flex flex-col gap-3">
             <TankGauge
               percent={percent}
               heightMm={typeof heightMm === "number" ? heightMm : Number(heightMm)}
-              capacityL={(() => { const row = PERCENT_TABLE.find(r => r.percent === percent); return row ? row.capacity_L : undefined; })()}
+              capacityL={(() => { 
+                const row = PERCENT_TABLE.find(r => r.percent === percent); 
+                return row ? row.capacity_L : undefined; 
+              })()}
             />
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="font-medium">Fill Level: {percent}%</div>
               <div className="text-sm text-muted-foreground">
                 Height: {typeof heightMm === "number" ? heightMm.toFixed(2) : Number(heightMm).toFixed(2)} mm •
-                Capacity: {(() => { const row = PERCENT_TABLE.find(r => r.percent === percent); return row ? row.capacity_L.toFixed(2) : "-"; })()} L
+                Capacity: {(() => { 
+                  const row = PERCENT_TABLE.find(r => r.percent === percent); 
+                  return row ? row.capacity_L.toFixed(2) : "-"; 
+                })()} L
               </div>
             </div>
             <Slider
@@ -133,6 +150,7 @@ export default function Calculator() {
             />
           </div>
         </section>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="rounded-2xl shadow-md transition-all hover:shadow-xl hover:-translate-y-0.5 hover-scale">
             <CardHeader>
@@ -142,51 +160,94 @@ export default function Calculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="density">Product Density (kg/L)</Label>
-                  <Input id="density" type="number" step="0.001" min={RANGES.density.min} max={RANGES.density.max}
-                    placeholder="0.550" value={density}
-                    onChange={(e) => setDensity(e.target.value === "" ? "" : Number(e.target.value))} />
+                  <Input 
+                    id="density" 
+                    type="number" 
+                    step="0.001" 
+                    min={RANGES.density.min} 
+                    max={RANGES.density.max}
+                    placeholder="0.550" 
+                    value={density}
+                    onChange={(e) => setDensity(e.target.value === "" ? "" : Number(e.target.value))} 
+                  />
                 </div>
                 <div>
                   <Label htmlFor="productTemperature">Product Temperature (°C)</Label>
-                  <Input id="productTemperature" type="number" step="0.1" min={RANGES.productTemperature.min} max={RANGES.productTemperature.max}
-                    placeholder="20.0" value={productTemperature}
-                    onChange={(e) => setProductTemperature(e.target.value === "" ? "" : Number(e.target.value))} />
+                  <Input 
+                    id="productTemperature" 
+                    type="number" 
+                    step="0.1" 
+                    min={RANGES.productTemperature.min} 
+                    max={RANGES.productTemperature.max}
+                    placeholder="20.0" 
+                    value={productTemperature}
+                    onChange={(e) => setProductTemperature(e.target.value === "" ? "" : Number(e.target.value))} 
+                  />
                 </div>
                 <div>
                   <Label htmlFor="shellTemperature">Shell Temperature (°C)</Label>
-                  <Input id="shellTemperature" type="number" step="0.1"
-                    placeholder="20.0" value={shellTemperature}
-                    onChange={(e) => setShellTemperature(e.target.value === "" ? "" : Number(e.target.value))} />
+                  <Input 
+                    id="shellTemperature" 
+                    type="number" 
+                    step="0.1"
+                    placeholder="20.0" 
+                    value={shellTemperature}
+                    onChange={(e) => setShellTemperature(e.target.value === "" ? "" : Number(e.target.value))} 
+                  />
                 </div>
                 <div>
                   <Label htmlFor="height">Height (mm)</Label>
-                  <Input id="height" type="number" step="0.01" min={RANGES.heightMm.min} max={RANGES.heightMm.max}
-                    placeholder="0.00" value={heightMm}
-                    onChange={(e) => setHeightMm(e.target.value === "" ? "" : Number(e.target.value))} />
+                  <Input 
+                    id="height" 
+                    type="number" 
+                    step="0.01" 
+                    min={RANGES.heightMm.min} 
+                    max={RANGES.heightMm.max}
+                    placeholder="0.00" 
+                    value={heightMm}
+                    onChange={(e) => setHeightMm(e.target.value === "" ? "" : Number(e.target.value))} 
+                  />
                 </div>
                 <div>
                   <Label htmlFor="pressure">Pressure (bar)</Label>
-                  <Input id="pressure" type="number" step="0.1" value={pressure}
-                    onChange={(e) => setPressure(e.target.value === "" ? "" : Number(e.target.value))} />
+                  <Input 
+                    id="pressure" 
+                    type="number" 
+                    step="0.1" 
+                    value={pressure}
+                    onChange={(e) => setPressure(e.target.value === "" ? "" : Number(e.target.value))} 
+                  />
                 </div>
               </div>
 
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
-                  <Switch id="showVCF" checked={showVCFToggle} onCheckedChange={setShowVCFToggle} />
+                  <Switch 
+                    id="showVCF" 
+                    checked={showVCFToggle} 
+                    onCheckedChange={setShowVCFToggle} 
+                  />
                   <Label htmlFor="showVCF">Show Product Temperature (VCF) table</Label>
                 </div>
                 {showVCFToggle && (
-                  <Button variant="outline" onClick={() => setOpenVCF(true)}>Open Product Temperature Table</Button>
+                  <Button variant="outline" onClick={() => setOpenVCF(true)}>
+                    Open Product Temperature Table
+                  </Button>
                 )}
               </div>
 
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button onClick={onCalculate}>Calculate</Button>
                 <Button variant="secondary" onClick={reset}>Reset</Button>
-                <Button variant="outline" onClick={() => setOpenSCF(true)}>Shell Correction Factors</Button>
-                <Button variant="outline" onClick={() => setOpenPCF(true)}>Pressure Factors</Button>
-                <Button variant="outline" onClick={() => setOpenHeight(true)}>Height↔Capacity Table</Button>
+                <Button variant="outline" onClick={() => setOpenSCF(true)}>
+                  Shell Correction Factors
+                </Button>
+                <Button variant="outline" onClick={() => setOpenPCF(true)}>
+                  Pressure Factors
+                </Button>
+                <Button variant="outline" onClick={() => setOpenHeight(true)}>
+                  Height↔Capacity Table
+                </Button>
               </div>
             </CardContent>
           </Card>
