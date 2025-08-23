@@ -2,15 +2,11 @@ import React from "react";
 
 export type TankGaugeProps = {
   percent: number;
+  heightMm?: number;
   capacityL?: number;
 };
 
-/**
- * TankGauge
- * Visual gauge symbolizing a cylindrical industrial tank with green liquid.
- * Mimics the appearance of horizontal storage tanks with support structures.
- */
-export function TankGauge({ percent, capacityL }: TankGaugeProps) {
+export function TankGauge({ percent, heightMm, capacityL }: TankGaugeProps) {
   const clamped = Math.max(0, Math.min(100, Number.isFinite(percent) ? percent : 0));
   
   return (
@@ -96,9 +92,8 @@ export function TankGauge({ percent, capacityL }: TankGaugeProps) {
         {/* Simple readout */}
         <div className="pointer-events-none absolute right-3 top-2 text-xs md:text-sm text-gray-700 bg-white/90 p-2 rounded border border-gray-300 shadow-md">
           <div className="font-bold text-gray-800">{clamped}%</div>
-          {typeof heightMm === "number" && typeof capacityL === "number" && (
+          {typeof capacityL === "number" && (
             <div className="text-gray-600 text-xs mt-1">
-              H: {heightMm.toFixed(1)} mm<br />
               Cap: {capacityL.toFixed(1)} L
             </div>
           )}
