@@ -1,23 +1,23 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
+import { TankGauge } from "./TankGauge";
+import { parsePercentHeightCsv } from "@/utils/interpolation";
+import percentCsv from "@/assets/percent_height.csv?raw";
 import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
-import { calculate, RANGES } from "@/utils/calculations";
-import { ResultsCard } from "./ResultsCard";
-import { VCFTableModal } from "./VCFTableModal";
-import { SCFTableModal } from "./SCFTableModal";
-import { PressureTableModal } from "./PressureTableModal";
+import { VCFTableModal } from "./modals/VCFTableModal";
+import { SCFTableModal } from "./modals/SCFTableModal";
+import { PressureTableModal } from "./modals/PressureTableModal";
 import { AboutModal } from "./modals/AboutModal";
 import { HelpModal } from "./modals/HelpModal";
 import { HeightCapacityModal } from "./HeightCapacityModal";
-import { ResourceHeightGuideModal } from "./ResourceHeightGuideModal";
-import percentCsv from "@/assets/Percent_Height.csv?raw";
-import { parsePercentHeightCsv } from "@/utils/interpolation";
-import { TankGauge } from "./TankGauge";
+import { ResultsCard } from "./ResultsCard";
+import { RANGES } from "@/utils/constants";
+import { calculate } from "@/utils/calculations";
+import { useToast } from "@/components/ui/use-toast";
 
 const PERCENT_TABLE = parsePercentHeightCsv(percentCsv);
 
@@ -93,7 +93,6 @@ export default function Calculator() {
         </div>
       </div>
       <div className="mt-3">
-        
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand))] to-[hsl(var(--ink))]">Tank Mass Calculator</h1>
       </div>
       <p className="text-muted-foreground mt-2">Single tank: 01 — LPG Bullet Tank</p>
@@ -114,10 +113,7 @@ export default function Calculator() {
             />
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="font-medium">Fill Level: {percent}%</div>
-              <div className="text-sm text-muted-foreground">
-                Height: {typeof heightMm === "number" ? heightMm.toFixed(2) : Number(heightMm).toFixed(2)} mm •
-                Capacity: {(() => { const row = PERCENT_TABLE.find(r => r.percent === percent); return row ? row.capacity_L.toFixed(2) : "-"; })()} L
-              </div>
+              {/* Height and Capacity section removed */}
             </div>
             <Slider
               value={[percent]}
