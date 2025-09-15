@@ -81,8 +81,7 @@ export default function Calculator() {
             className="h-10 w-10 rounded-full object-contain shadow"
             style={{
               background: 'transparent',
-              mixBlendMode: 'multiply',
-              filter: 'brightness(0) saturate(100%) invert(22%) sepia(15%) saturate(1085%) hue-rotate(186deg) brightness(95%) contrast(91%)'
+              mixBlendMode: 'multiply'
             }}
             loading="eager"
           />
