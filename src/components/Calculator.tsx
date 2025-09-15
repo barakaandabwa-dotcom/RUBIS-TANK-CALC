@@ -78,11 +78,7 @@ export default function Calculator() {
           <img
             src="/lovable-uploads/276648f6-6e8a-4575-a788-75ee76afecef.png"
             alt="Murban Engineering logo"
-            className="h-10 w-auto object-contain shadow rounded-lg"
-            style={{
-              background: 'transparent',
-              mixBlendMode: 'multiply'
-            }}
+            className="h-10 w-10 rounded-full object-contain shadow"
             loading="eager"
           />
           <div>
