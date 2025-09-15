@@ -76,7 +76,7 @@ export default function Calculator() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 relative">
           <img
-            src="/lovable-uploads/276648f6-6e8a-4575-a788-75ee76afecef.png"
+            src="/lovable-uploads/murban%20logo.png"
             alt="Murban Engineering logo"
             className="h-12 w-auto object-contain relative z-10"
             style={{
