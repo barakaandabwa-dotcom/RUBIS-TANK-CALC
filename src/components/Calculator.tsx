@@ -74,11 +74,15 @@ export default function Calculator() {
   const header = (
     <header className="w-full mb-6">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 relative">
           <img
-            src="/lovable-uploads/murban logo.png"
+            src="/lovable-uploads/276648f6-6e8a-4575-a788-75ee76afecef.png"
             alt="Murban Engineering logo"
-            className="h-10 w-10 rounded-full object-contain shadow"
+            className="h-12 w-auto object-contain relative z-10"
+            style={{
+              background: 'transparent',
+              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+            }}
             loading="eager"
           />
           <div>
