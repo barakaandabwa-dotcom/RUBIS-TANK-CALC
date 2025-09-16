@@ -73,26 +73,26 @@ export default function Calculator() {
 
   const header = (
     <header className="w-full mb-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3 relative min-w-0 flex-shrink">
+      <div className="flex items-start justify-between gap-2 min-h-[3rem]">
+        <div className="flex items-center gap-2 min-w-0 flex-1 max-w-[calc(100%-140px)]">
           <img
             src="/lovable-uploads/murban%20logo.png"
             alt="Murban Engineering logo"
-            className="h-10 w-auto object-contain relative z-10 flex-shrink-0 sm:h-12"
+            className="h-8 w-auto object-contain relative z-10 flex-shrink-0 sm:h-10 md:h-12"
             style={{
               background: 'transparent',
               filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
             }}
             loading="eager"
           />
-          <div className="min-w-0">
-            <span className="text-base sm:text-lg md:text-xl font-semibold tracking-tight block truncate">Murban Engineering</span>
-            <span className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground block truncate">RUBIS TANK</span>
+          <div className="min-w-0 flex-1">
+            <span className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight block truncate">Murban Engineering</span>
+            <span className="text-xs sm:text-sm md:text-base lg:text-lg font-medium text-muted-foreground block truncate">RUBIS TANK</span>
           </div>
         </div>
-        <div className="flex gap-2 flex-shrink-0 self-start md:self-center">
-          <Button variant="secondary" size="sm" className="text-xs sm:text-sm" onClick={() => setOpenHelp(true)}>Help</Button>
-          <Button variant="secondary" size="sm" className="text-xs sm:text-sm" onClick={() => setOpenAbout(true)}>About</Button>
+        <div className="flex gap-1 flex-shrink-0 w-[130px] justify-end">
+          <Button variant="secondary" size="sm" className="text-xs px-2 py-1 h-8" onClick={() => setOpenHelp(true)}>Help</Button>
+          <Button variant="secondary" size="sm" className="text-xs px-2 py-1 h-8" onClick={() => setOpenAbout(true)}>About</Button>
         </div>
       </div>
       <div className="mt-3">
