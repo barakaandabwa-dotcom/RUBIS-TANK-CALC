@@ -73,40 +73,38 @@ export default function Calculator() {
 
   const header = (
     <header className="w-full mb-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3 relative">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-3 relative min-w-0 flex-shrink">
           <img
             src="/lovable-uploads/murban%20logo.png"
             alt="Murban Engineering logo"
-            className="h-12 w-auto object-contain relative z-10"
+            className="h-10 w-auto object-contain relative z-10 flex-shrink-0 sm:h-12"
             style={{
               background: 'transparent',
               filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
             }}
             loading="eager"
           />
-          <div>
-            <span className="text-lg md:text-xl font-semibold tracking-tight">Murban Engineering</span>
-            <br />
-            <span className="text-base md:text-lg font-medium text-muted-foreground">RUBIS TANK </span>
+          <div className="min-w-0">
+            <span className="text-base sm:text-lg md:text-xl font-semibold tracking-tight block truncate">Murban Engineering</span>
+            <span className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground block truncate">RUBIS TANK</span>
           </div>
         </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" onClick={() => setOpenHelp(true)}>Help</Button>
-          <Button variant="secondary" onClick={() => setOpenAbout(true)}>About / Calibration</Button>
+        <div className="flex gap-2 flex-shrink-0 self-start md:self-center">
+          <Button variant="secondary" size="sm" className="text-xs sm:text-sm" onClick={() => setOpenHelp(true)}>Help</Button>
+          <Button variant="secondary" size="sm" className="text-xs sm:text-sm" onClick={() => setOpenAbout(true)}>About</Button>
         </div>
       </div>
       <div className="mt-3">
-        
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand))] to-[hsl(var(--ink))]">Tank Mass Calculator</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand))] to-[hsl(var(--ink))]">Tank Mass Calculator</h1>
       </div>
-      <p className="text-muted-foreground mt-2">Single tank: 01 — LPG Bullet Tank</p>
+      <p className="text-muted-foreground mt-2 text-sm sm:text-base">Single tank: 01 — LPG Bullet Tank</p>
     </header>
   );
 
   return (
     <div className="min-h-screen py-8">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         {header}
         {/* Fill Level Slider */}
         <section aria-label="Fill level gauge" className="mb-6 rounded-2xl border bg-muted/30 p-4">
