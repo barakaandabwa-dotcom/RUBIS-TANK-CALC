@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 
 const AppRoutes = () => {
   // Set to true to disable the portal
-  const PORTAL_DISABLED = true;
+  const PORTAL_DISABLED = false;
   
   // If portal is disabled, always show 404
   if (PORTAL_DISABLED) {
